@@ -14,3 +14,8 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+
+$router->get('/boards', 'BoardController@index');
+$router->post('/boards', 'BoardController@store');
+
