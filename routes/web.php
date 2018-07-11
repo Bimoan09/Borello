@@ -16,8 +16,15 @@ $router->get('/', function () use ($router) {
 });
 
 
+
+//authentication User
+$router->post('/register', 'AuthController@register');
+
+
+
 $router->get('/boards', 'BoardController@index');
 $router->get('/boards/{id}', 'BoardController@find');
 $router->post('/boards', 'BoardController@store');
 $router->put('/boards/{id}', 'BoardController@update');
 $router->delete('/boards/{id}', 'BoardController@delete');
+
