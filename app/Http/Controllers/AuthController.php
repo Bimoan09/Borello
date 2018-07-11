@@ -67,27 +67,5 @@ class AuthController extends Controller
 
     }
 
-    public function update(Request $request, $id){
-
-        
-        $board = Board::find($id);
-        $board->update($request->all());
-
-        $response = [
-            'msg' => 'data berhasil diupdate',
-            'data' => $board,
-        ];
-        return response()->json($response, 200);
-    }
-
-    public function delete($id){
-        $board = Board::find($id);
-        $board->destroy($id);
-
-        $response = [
-            'msg' => 'data berhasil dihapus',
-        ];
-        return response()->json($response, 200);
-    }
     
 }
