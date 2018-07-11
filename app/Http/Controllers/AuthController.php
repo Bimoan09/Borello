@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Hash;
 
 
 class AuthController extends Controller
@@ -18,7 +18,7 @@ class AuthController extends Controller
         //
     }
 
-    public function register(Request $resuest)
+    public function register(Request $request)
     
     {
 
@@ -26,44 +26,44 @@ class AuthController extends Controller
 
                 'username'=>$request->username,
                 'email'=> $request->email,
-                'password'=> bcrypt($request->password),
+                'password'=> app('hash')->make($request->password),
                 'api_token'=> str_random(50)
             ]);
        
-            return response()->json(['user' => $user], 200);
+            return response()->json(['user' => $users], 200);
     }
 
     public function login(Request $request)
     {
 
-        $login = User::where('email', $request->email)->where('password', bcrypt($request->password))->first();
+        $user = User::where('email', $request->email)->first();
 
-        if(!login)
+        if(!$user)
         {
-            return response()->json(['status'=>'error', 'message'=>'token invalid'], 400);
+            return response()->json(['status'=>'error', 'message'=>'wrong password'], 400);
         }
-        else
+
+        if(Hash::check($request->password, $user->password))
         {
-            return response()->json(['status'=>'succes', 'login'=> $login], 200);
-        }
+            return response()->json(['status'=>'succes', 'user'=> $user], 200);
+        };
 
     }
 
-    public function logout(Request $request )
+    public function logout(Request $request)
     {
    
-        $api_token = $request->api_token;
-        $users = User::with('api_token', $api_token)->first();
-        if(!users)
+      
+       
+        $users = User::where('api_token')->first();
+        if(!$users)
         {
             return response()->json(['status'=>'error', 'message'=>'Not Login'], 400);
         }
-        else
-        {
-            return response()->json(['status'=>'succes', 'message'=>'logout succes'], 200);
-        }
-        $user->api_token = NULL;
-        $user->save();
+        $users->api_token = null;
+        $users->save();
+
+        return response()->json(['status'=>'succes', 'message'=>'logout succes'], 200);
 
     }
 

@@ -19,9 +19,10 @@ $router->get('/', function () use ($router) {
 
 //authentication User
 $router->post('/register', 'AuthController@register');
+$router->post('/login', 'AuthController@login');
+$router->get('/logout', 'AuthController@logout');
 
-
-
+//Board
 $router->get('/boards', 'BoardController@index');
 $router->get('/boards/{id}', 'BoardController@find');
 $router->post('/boards', 'BoardController@store');
