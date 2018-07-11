@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminta\Http\Request;
+use App\Board;
+use Illuminate\Http\Request;
 
 
-class ExampleController extends Controller
+
+class BoardController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -18,21 +20,71 @@ class ExampleController extends Controller
 
     public function index(){
 
-
-        $board = Board::all();
-        return response()->json(['message'=> 'get data succes'], 200);
+        $index =  Board::all();
+        $response = [
+        'msg' => 'List of all board',
+        'news' => $index
+      ];
+     return response()->json($response, 200);
     }
 
+    public function find($id){
+
+        $find = Board::find($id);
+
+        if($find == NULL ){
+        $response = [
+            'msg'=> 'data tidak ada',
+    
+        ];
+        return response()->json($response, 404);
+    }
+    
+    else{
+    
+        return response()->json($find, 200);
+    }
+
+}
 
     public function store(Request $request){
 
         $boardStore = Board::create([
 
             'name'=>$request->name,
-            'user_id'=>'1'
+            'user_id'=>$request->user_id,
+
         ]);
 
-        return response()->json(['message'=> 'store data succes'], 200);   
+        $response = [
+            'msg' => 'data berhasil ditambah',
+            'data' => $boardStore,
+        ];
+
+        return response()->json($response, 200);   
+    }
+
+    public function update(Request $request, $id){
+
+        
+        $board = Board::find($id);
+        $board->update($request->all());
+
+        $response = [
+            'msg' => 'data berhasil diupdate',
+            'data' => $board,
+        ];
+        return response()->json($response, 200);
+    }
+
+    public function delete($id){
+        $board = Board::find($id);
+        $board->destroy($id);
+
+        $response = [
+            'msg' => 'data berhasil dihapus',
+        ];
+        return response()->json($response, 200);
     }
     
 }

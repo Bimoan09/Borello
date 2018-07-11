@@ -1,17 +1,22 @@
 <?php
 namespace App;
 
-use Illuminate\Database\Elequent\Model;
+
+use Illuminate\Auth\Authenticatable;
+use Laravel\Lumen\Auth\Authorizable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use illuminate\Http\Request;
 
 class Board extends Model {
 
 
     protected $guarded = [];
 
-    protected $fillable = {
-
-        'name', 'username', 'password'
-    }
+    protected $fillable = [
+        'name', 'username', 'password', 'user_id'
+    ];
 
 
 
