@@ -23,34 +23,26 @@ class BoardController extends Controller
         return Auth::user()->boards;
     }
 
-    public function find($id){
+    public function find($id)
+    {
 
         $find = Board::find($id);
-
-        if($find == NULL ){
-        $response = [
-            'msg'=> 'data tidak ada',
-    
-        ];
-        return response()->json($response, 404);
-    }
-    
-    else{
-    
-        return response()->json($find, 200);
+        if(Auth::user()->id !== $boards->user_id)
+        {
+            return response()->json(['status'=>'error', 'message'=> 'unauthorized'], 401);
+        };
     }
 
-}
 
     public function store(Request $request){
 
         $boardStore = Board::create([
 
             'name'=>$request->name,
-            'user_id'=>$request->user_id,
+            'user_id'=>Auth::id(),
 
         ]);
-
+        
         $response = [
             'msg' => 'data berhasil ditambah',
             'data' => $boardStore,
@@ -63,6 +55,12 @@ class BoardController extends Controller
 
         
         $board = Board::find($id);
+
+        if(Auth::user()->id !== $boards->user_id)
+        {
+            return response()->json(['status'=>'error', 'message'=> 'unauthorized'], 401);
+        };
+
         $board->update($request->all());
 
         $response = [
@@ -74,6 +72,12 @@ class BoardController extends Controller
 
     public function delete($id){
         $board = Board::find($id);
+
+        if(Auth::user()->id !== $boards->user_id)
+        {
+            return response()->json(['status'=>'error', 'message'=> 'unauthorized'], 401);
+        };
+        
         $board->destroy($id);
 
         if($board === NULL)
