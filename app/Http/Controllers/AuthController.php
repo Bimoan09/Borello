@@ -45,6 +45,7 @@ class AuthController extends Controller
 
         if(Hash::check($request->password, $user->password))
         {
+            $user->update(['api_token'=>str_random(50)]);
             return response()->json(['status'=>'succes', 'user'=> $user], 200);
         };
 
@@ -53,8 +54,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
    
-      
-       
         $users = User::where('api_token')->first();
         if(!$users)
         {

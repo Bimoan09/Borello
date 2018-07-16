@@ -81,10 +81,23 @@ class BoardController extends Controller
         $board = Board::find($id);
         $board->destroy($id);
 
-        $response = [
+        if($board === NULL)
+        {
+            $failresponse = 
+            [
+                'msg' => 'data tidak ada'
+            ];
+            return response()->json($failresponse, 200);
+        }
+        else
+        {
+            $succesresponse = 
+            [
             'msg' => 'data berhasil dihapus',
-        ];
-        return response()->json($response, 200);
+            ];
+        return response()->json($succesresponse, 200);
+
+        }
     }
     
 }
