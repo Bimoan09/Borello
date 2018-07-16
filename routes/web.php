@@ -23,7 +23,7 @@ $router->post('/login', 'AuthController@login');
 $router->get('/logout', 'AuthController@logout');
 
 //Board
-$router->get('/boards',['middleware'=>'auth', 'BoardController@index']);
+$router->get('/boards','BoardController@index');
 $router->get('/boards/{id}', 'BoardController@find');
 $router->post('/boards', 'BoardController@store');
 $router->put('/boards/{id}', 'BoardController@update');

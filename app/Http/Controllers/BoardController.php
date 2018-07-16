@@ -15,17 +15,12 @@ class BoardController extends Controller
      */
     public function __construct()
     {
-        //
+        $this->middleware('auth');
     }
 
-    public function index(){
-
-        $index =  Board::all();
-        $response = [
-        'msg' => 'List of all board',
-        'news' => $index
-      ];
-     return response()->json($response, 200);
+    public function index()
+    {
+        return Auth::user()->boards;
     }
 
     public function find($id){
