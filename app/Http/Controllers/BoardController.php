@@ -27,14 +27,15 @@ class BoardController extends Controller
     {
 
         $find = Board::find($id);
-        if(Auth::user()->id !== $boards->user_id)
+        if (Auth::user()->id !== $boards->user_id)
         {
             return response()->json(['status'=>'error', 'message'=> 'unauthorized'], 401);
         };
     }
 
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $boardStore = Board::create([
 
@@ -51,12 +52,13 @@ class BoardController extends Controller
         return response()->json($response, 200);   
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
 
         
         $board = Board::find($id);
 
-        if(Auth::user()->id !== $boards->user_id)
+        if (Auth::user()->id !== $boards->user_id)
         {
             return response()->json(['status'=>'error', 'message'=> 'unauthorized'], 401);
         };
@@ -70,17 +72,18 @@ class BoardController extends Controller
         return response()->json($response, 200);
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $board = Board::find($id);
 
-        if(Auth::user()->id !== $boards->user_id)
+        if (Auth::user()->id !== $boards->user_id)
         {
             return response()->json(['status'=>'error', 'message'=> 'unauthorized'], 401);
         };
         
         $board->destroy($id);
 
-        if($board === NULL)
+        if ($board === NULL)
         {
             $failresponse = 
             [
