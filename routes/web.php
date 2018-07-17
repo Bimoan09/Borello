@@ -29,3 +29,11 @@ $router->post('/boards', 'BoardController@store');
 $router->put('/boards/{id}', 'BoardController@update');
 $router->delete('/boards/{id}', 'BoardController@delete');
 
+//lists
+$router->get('/boards{board}/list','ListController@index');
+$router->get('/boards/{boards}/list', 'ListController@find');
+$router->post('/boards/{boards}/list/{list}', 'ListController@store');
+$router->put('/boards/{boards}/list/{list}', 'ListController@update');
+$router->delete('/boards/{boards}/list/{list}', 'ListController@delete');
+
+
